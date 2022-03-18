@@ -1,0 +1,35 @@
+---
+
+- name: Set hostname fact
+  delegate_to: localhost
+  set_fact:
+    inventory_hostname: "{{item.key}}"
+
+- name: Set facts for unmanaged peers
+  delegate_to: localhost
+  become: false
+  loop: "{{ item.value|dict2items }}"
+  loop_control:
+    loop_var: fact
+    label: "{{ fact.key }}"
+  set_fact:
+    "{{fact.key}}": "{{fact.value}}"
+
+- name: Create local configuration directory
+  become: false
+  local_action:
+    module: ansible.builtin.file
+    path: "{{ wireguard_local_config_directory }}"
+    state: directory
+    modification_time: preserve
+    access_time: preserve
+
+- name: Generate local configuration
+  become: false
+  vars:
+    wireguard_is_local_config: true
+  local_action:
+    module: ansible.builtin.template
+    src: etc/wireguard/local.conf.j2
+    dest: "{{ wireguard_local_config_directory }}/{{ item.key }}.conf"
+    mode: "{{ wireguard_conf_mode }}"

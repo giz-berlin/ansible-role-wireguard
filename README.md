@@ -337,6 +337,16 @@ wireguard_postup:
 wireguard_postdown:
   - ...
 wireguard_save_config: "true"
+wireguard_unmanaged_peers:
+  client.example.com:
+    public_key: 5zsSBeZZ8P9pQaaJvY9RbELQulcwC5VBXaZ93egzOlI=
+    # preshared_key: ... e.g. from ansible-vault?
+    allowed_ips: 10.0.0.3/32, 10.1.0.0/16
+    address: 10.0.0.3/32
+    endpoint: client.example.com:51820
+    persistent_keepalive: 0
+    generate_local_config: true
+    skip_local_config: false
 ```
 
 `wireguard_(preup|predown|postup|postdown)` are specified as lists. Here are two examples:

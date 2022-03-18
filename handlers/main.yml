@@ -62,3 +62,8 @@
   when:
     - wireguard_ubuntu_use_netplan
     - wireguard_interface_restart
+
+- name: Unmanaged peers
+  include_tasks: local-config.yml
+  loop: "{{ wireguard_unmanaged_peers|dict2items }}"
+  when: item.value.generate_local_config | default(false) | bool
