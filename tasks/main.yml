@@ -148,3 +148,9 @@
     state: "{{ wireguard_service_state }}"
     enabled: "{{ wireguard_service_enabled }}"
   when: not ansible_os_family == 'Darwin'
+
+- name: Generate config for unmanaged peers
+  run_once: true
+  command: /bin/true
+  notify:
+    - Unmanaged peers
