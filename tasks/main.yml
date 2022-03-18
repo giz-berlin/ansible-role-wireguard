@@ -193,6 +193,12 @@
     - ansible_facts['os_family'] != 'Darwin'
     - not wireguard_ubuntu_use_netplan
 
+- name: Generate config for unmanaged peers
+  run_once: true
+  command: /bin/true
+  notify:
+    - Unmanaged peers
+
 - name: Flush notified handlers at end of role
   ansible.builtin.meta: flush_handlers
   when:
