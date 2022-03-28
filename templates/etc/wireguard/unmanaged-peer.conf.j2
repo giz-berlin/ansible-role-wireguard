@@ -1,0 +1,31 @@
+{# Copyright (C) 2018-2020 Robert Wimmer
+ # SPDX-License-Identifier: GPL-3.0-or-later
+ #}
+
+# Peers not managed by Ansible from "wireguard_unmanaged_peers" variable
+{% for peer in wireguard_unmanaged_peers.keys() %}
+{% if (
+     peer != inventory_hostname and
+     not (wireguard_is_local_config is defined and
+      wireguard_unmanaged_peers[peer].skip_local_config|default(true))
+)
+%}
+[Peer]
+# {{ peer }}
+PublicKey = {{ wireguard_unmanaged_peers[peer].public_key }}
+{%     if wireguard_unmanaged_peers[peer].preshared_key is defined %}
+PresharedKey = {{ wireguard_unmanaged_peers[peer].preshared_key }}
+{%     endif %}
+{%     if wireguard_unmanaged_peers[peer].allowed_ips is defined %}
+AllowedIPs = {{ wireguard_unmanaged_peers[peer].allowed_ips }}
+{%     elif wireguard_unmanaged_peers[peer].address is defined %}
+AllowedIPs = {{ wireguard_unmanaged_peers[peer].address.split('/')[0] }}/32
+{%     endif %}
+{%     if wireguard_unmanaged_peers[peer].endpoint is defined %}
+Endpoint = {{ wireguard_unmanaged_peers[peer].endpoint }}
+{%     endif %}
+{%     if wireguard_unmanaged_peers[peer].persistent_keepalive is defined %}
+PersistentKeepalive = {{ wireguard_unmanaged_peers[peer].persistent_keepalive }}
+{%     endif %}
+{%   endif %}
+{%   endfor %}

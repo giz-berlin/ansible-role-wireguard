@@ -30,3 +30,8 @@
     - not ansible_os_family == 'Darwin'
     - wireguard_service_enabled == "yes"
   listen: "reconfigure wireguard"
+
+- name: Unmanaged peers
+  include_tasks: local-config.yml
+  loop: "{{ wireguard_unmanaged_peers|dict2items }}"
+  when: item.value.generate_local_config | default(false) | bool
