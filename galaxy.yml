@@ -1,0 +1,20 @@
+namespace: giz
+name: githubixx
+version: 19.2.0
+readme: README.md
+license: GPL-3.0-or-later
+authors:
+  - Robert Wimmer (https://github.com/githubixx)
+  - Leonard Marschke <leonard.marschke@giz.berlin>
+  - Tobias Kantusch <tobias.kantusch@giz.berlin>
+  - Felix Auringer <felix.auringer@giz.berlin> (only packaging to collection)
+description: Ansible Collection containing ansible_role_wireguard role by Robert Wimmer.
+tags:
+  - giz
+  - networking
+  - security
+  - linux
+  - vpn
+  - wireguard
+dependencies: {}
+repository: https://github.com/giz-berlin/ansible-role-wireguard
